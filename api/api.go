@@ -80,6 +80,9 @@ func Submit(url string, iter *Iteration) (*Submission, error) {
 		return nil, err
 	}
 
+    println("payload")
+    println(string(payload))
+
 	req, err := http.NewRequest("POST", url, bytes.NewReader(payload))
 	if err != nil {
 		return nil, err
@@ -87,6 +90,13 @@ func Submit(url string, iter *Iteration) (*Submission, error) {
 
 	req.Header.Set("User-Agent", UserAgent)
 	req.Header.Set("Content-Type", "application/json")
+
+    println("url arg")
+    println(url)
+    println("req.URL")
+    println(req.URL)
+    println("req.Method")
+    println(req.Method)
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -105,6 +115,12 @@ func Submit(url string, iter *Iteration) (*Submission, error) {
 		return nil, fmt.Errorf("error parsing API response - %s", err)
 	}
 	if res.StatusCode != http.StatusCreated {
+        println("res.Status")
+        println(res.Status)
+        println("res.Header")
+        println(res.Header)
+        println("body")
+        println(string(body))
 		return nil, fmt.Errorf(`unable to submit (HTTP: %d) - %s`, res.StatusCode, ps.Error)
 	}
 
